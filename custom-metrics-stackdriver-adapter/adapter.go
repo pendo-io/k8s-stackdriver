@@ -197,6 +197,7 @@ func main() {
 
 	flags := cmd.Flags()
 
+	klog.InitFlags(nil)
 	flags.AddGoFlagSet(flag.CommandLine) // make sure we get the klog flags
 
 	serverOptions := stackdriverAdapterServerOptions{

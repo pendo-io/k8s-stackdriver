@@ -15,9 +15,9 @@
 FROM golang:1.24-alpine as builder
 WORKDIR ${GOPATH}/src/github.com/GoogleCloudPlatform/k8s-stackdriver/custom-metrics-stackdriver-adapter
 COPY . ./
-RUN CGO_ENABLED=0 GOOS=linux go build -mod=readonly -o /adapter
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -mod=readonly -o /adapter
 RUN ! ldd cluster-addons-bootstrap # Assert that the compiled bin is statically linked
 
-FROM gcr.io/distroless/static
+FROM --platform=linux/amd64 gcr.io/distroless/static
 
 COPY --from=builder /adapter adapter
